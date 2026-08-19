@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>عسل رحمانی | رزومه</title>
-<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Estedad:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -38,7 +37,7 @@
     background: #0d0b1a;
     color: var(--ink);
     min-height: 100vh;
-    padding: 32px 16px 120px;
+    padding: 20px 16px 40px;
     background-image:
       radial-gradient(circle at 15% 10%, rgba(108,60,233,.35), transparent 40%),
       radial-gradient(circle at 85% 0%, rgba(255,107,74,.25), transparent 45%),
@@ -46,12 +45,12 @@
     background-attachment: fixed;
   }
 
-  /* ===== Toolbar ===== */
+  /* ===== Toolbar (فقط برای مالک) ===== */
   .toolbar {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 1000;
-    display: flex;
+    display: none; /* مخفی به صورت پیش‌فرض */
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -62,6 +61,10 @@
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,.08);
     box-shadow: 0 4px 20px rgba(0,0,0,.3);
+  }
+  
+  body.owner .toolbar {
+    display: flex; /* فقط برای مالک نمایش داده می‌شود */
   }
   
   .toolbar button {
@@ -215,12 +218,16 @@
   /* ===== Resume Card ===== */
   .page {
     max-width: 980px;
-    margin: 70px auto 0;
+    margin: 0 auto;
     background: var(--paper);
     border-radius: 26px;
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: box-shadow var(--transition);
+  }
+  
+  body.owner .page {
+    margin-top: 70px;
   }
 
   /* ===== Hero Section ===== */
@@ -278,11 +285,11 @@
     box-shadow: 0 8px 24px rgba(0,0,0,.2);
   }
   
-  body.editing .avatar {
+  body.owner.editing .avatar {
     cursor: pointer;
   }
   
-  body.editing .avatar:hover {
+  body.owner.editing .avatar:hover {
     transform: scale(1.02);
     border-color: #fff;
   }
@@ -304,11 +311,11 @@
     transition: var(--transition);
   }
   
-  body.editing .avatar .cam {
+  body.owner.editing .avatar .cam {
     display: flex;
   }
   
-  body.editing .avatar .cam:hover {
+  body.owner.editing .avatar .cam:hover {
     transform: scale(1.1);
     background: var(--primary);
   }
@@ -482,6 +489,7 @@
   /* ===== Education & Courses ===== */
   .edu-item {
     margin-bottom: 16px;
+    position: relative;
   }
   
   .edu-item:last-child {
@@ -523,6 +531,7 @@
     align-items: center;
     gap: 8px;
     transition: var(--transition);
+    position: relative;
   }
   
   .chip .lvl {
@@ -587,41 +596,6 @@
     margin-top: 2px;
   }
 
-  /* ===== Links ===== */
-  .link-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12.5px;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--panel-line);
-  }
-  
-  .link-row:last-child {
-    border-bottom: none;
-  }
-  
-  .link-row a {
-    color: var(--primary-dark);
-    text-decoration: none;
-    font-weight: 600;
-    word-break: break-all;
-    transition: var(--transition);
-  }
-  
-  .link-row a:hover {
-    text-decoration: underline;
-    color: var(--primary);
-  }
-  
-  .link-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--teal);
-    flex: 0 0 auto;
-  }
-
   /* ===== Portfolio ===== */
   .portfolio-grid {
     display: grid;
@@ -664,20 +638,20 @@
     color: var(--primary-dark);
   }
 
-  /* ===== Edit Mode Styles ===== */
-  [contenteditable="true"] {
+  /* ===== Edit Mode Styles (فقط برای مالک) ===== */
+  body.owner [contenteditable="true"] {
     outline: 2px dashed transparent;
     border-radius: 6px;
     transition: var(--transition);
     padding: 2px 4px;
   }
   
-  body.editing [contenteditable="true"]:hover {
+  body.owner.editing [contenteditable="true"]:hover {
     outline-color: var(--teal);
     background: rgba(18,184,166,.06);
   }
   
-  body.editing [contenteditable="true"]:focus {
+  body.owner.editing [contenteditable="true"]:focus {
     outline-color: var(--sunset);
     background: rgba(255,107,74,.08);
     outline-offset: 2px;
@@ -709,7 +683,7 @@
     background: #ff1a1a;
   }
   
-  body.editing .del-btn {
+  body.owner.editing .del-btn {
     display: flex;
   }
 
@@ -729,7 +703,7 @@
     transition: var(--transition);
   }
   
-  body.editing .add-btn {
+  body.owner.editing .add-btn {
     display: block;
   }
   
@@ -760,7 +734,7 @@
     color: #ff1a1a;
   }
   
-  body.editing .chip .del-chip {
+  body.owner.editing .chip .del-chip {
     display: inline;
   }
 
@@ -772,6 +746,11 @@
     font-size: 11.5px;
     text-align: center;
     line-height: 1.8;
+    display: none;
+  }
+  
+  body.owner .hint {
+    display: block;
   }
 
   /* ===== Print Styles ===== */
@@ -808,12 +787,20 @@
     .pf-card {
       break-inside: avoid;
     }
+    
+    body.owner .page {
+      margin-top: 0;
+    }
   }
 
   /* ===== Responsive ===== */
   @media (max-width: 600px) {
     body {
-      padding: 16px 8px 100px;
+      padding: 16px 8px 40px;
+    }
+    
+    body.owner {
+      padding-top: 80px;
     }
     
     .toolbar {
@@ -894,7 +881,7 @@
 </head>
 <body>
 
-<!-- ===== Toolbar ===== -->
+<!-- ===== Toolbar (فقط برای مالک) ===== -->
 <div class="toolbar" role="toolbar" aria-label="کنترل‌های رزومه">
   <button id="btnEdit" aria-label="ویرایش رزومه">🔓 <span>ویرایش</span></button>
   <button id="btnDesign" aria-label="تنظیمات طراحی">🎨 <span>طراحی</span></button>
@@ -939,8 +926,8 @@
   <!-- Hero -->
   <header class="hero">
     <div class="meta-line">
-      <span>بروزرسانی: <b contenteditable="true" id="updateDate">۲۶ دی ۱۴۰۴</b></span>
-      <span>شناسه: <b contenteditable="true" id="userId">JV-30438369</b></span>
+      <span>بروزرسانی: <b id="updateDate">۲۶ دی ۱۴۰۴</b></span>
+      <span>شناسه: <b id="userId">JV-30438369</b></span>
     </div>
     
     <div class="avatar" id="avatarBox" role="img" aria-label="آواتار" style="background-image:url('https://api.dicebear.com/7.x/initials/svg?seed=Asal&backgroundColor=6C3CE9');">
@@ -949,13 +936,13 @@
     </div>
     
     <div class="hero-text">
-      <h1 contenteditable="true" id="fullName">عسل رحمانی</h1>
-      <div class="role" contenteditable="true" id="roleTitle">طراح و ادمین سایت وردپرسی</div>
-      <div class="role-sub" contenteditable="true" id="roleSub">حدود ۱ سال تجربه‌ی عملی در طراحی، راه‌اندازی و پشتیبانی سایت‌های فروشگاهی و شرکتی با وردپرس، همراه با آشنایی عملی با سئوی پایه.</div>
+      <h1 id="fullName">عسل رحمانی</h1>
+      <div class="role" id="roleTitle">طراح و ادمین سایت وردپرسی</div>
+      <div class="role-sub" id="roleSub">حدود ۱ سال تجربه‌ی عملی در طراحی، راه‌اندازی و پشتیبانی سایت‌های فروشگاهی و شرکتی با وردپرس، همراه با آشنایی عملی با سئوی پایه.</div>
       <div class="badge-row">
-        <span class="badge" contenteditable="true">وردپرس پیشرفته</span>
-        <span class="badge" contenteditable="true">طراح رابط کاربری</span>
-        <span class="badge" contenteditable="true">سئوی پایه</span>
+        <span class="badge">وردپرس پیشرفته</span>
+        <span class="badge">طراح رابط کاربری</span>
+        <span class="badge">سئوی پایه</span>
       </div>
     </div>
   </header>
@@ -967,7 +954,7 @@
       <!-- About -->
       <section class="sec">
         <h2 class="sec-title">درباره من</h2>
-        <p class="bio" contenteditable="true" id="bioText">
+        <p class="bio" id="bioText">
           طراح سایت وردپرسی و ادمین سایت با تجربه‌ی عملی در طراحی، راه‌اندازی و پشتیبانی فروشگاه‌های اینترنتی و سایت‌های شرکتی. در پروژه‌های اخیر بخشی از نیازهای اختصاصی سایت‌ها را نیز با کمک ابزارهای هوش مصنوعی شخصی‌سازی و پیاده‌سازی می‌کنم و با اصول سئوی پایه هم آشنایی عملی دارم.
         </p>
       </section>
@@ -979,56 +966,56 @@
           <div class="item">
             <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role" contenteditable="true">طراح سایت وردپرسی — دیجیتال مارکتینگ دیما هلد</div>
-              <div class="item-date" contenteditable="true">[تاریخ شروع] تا کنون · ۳ ماه</div>
+              <div class="item-role">طراح سایت وردپرسی — دیجیتال مارکتینگ دیما هلد</div>
+              <div class="item-date">[تاریخ شروع] تا کنون · ۳ ماه</div>
             </div>
-            <div class="item-sub" contenteditable="true">ایران</div>
-            <div class="item-desc" contenteditable="true">طراحی و پیاده‌سازی سایت‌های وردپرسی برای پروژه‌های مختلف شرکت. شخصی‌سازی و توسعه‌ی افزونه‌های وردپرس متناسب با نیاز هر پروژه با کمک ابزارهای هوش مصنوعی و مستندات وردپرس. پیاده‌سازی قابلیت‌های اختصاصی که به‌صورت پیش‌فرض در وردپرس وجود ندارد.</div>
+            <div class="item-sub">ایران</div>
+            <div class="item-desc">طراحی و پیاده‌سازی سایت‌های وردپرسی برای پروژه‌های مختلف شرکت. شخصی‌سازی و توسعه‌ی افزونه‌های وردپرس متناسب با نیاز هر پروژه با کمک ابزارهای هوش مصنوعی و مستندات وردپرس. پیاده‌سازی قابلیت‌های اختصاصی که به‌صورت پیش‌فرض در وردپرس وجود ندارد.</div>
           </div>
           <div class="item">
             <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role" contenteditable="true">طراح سایت — ایماژ همراه</div>
-              <div class="item-date" contenteditable="true">مهر ۱۴۰۴ تا کنون · ۴ ماه</div>
+              <div class="item-role">طراح سایت — ایماژ همراه</div>
+              <div class="item-date">مهر ۱۴۰۴ تا کنون · ۴ ماه</div>
             </div>
-            <div class="item-sub" contenteditable="true">ایران، تهران</div>
-            <div class="item-desc" contenteditable="true"></div>
+            <div class="item-sub">ایران، تهران</div>
+            <div class="item-desc"></div>
           </div>
           <div class="item">
             <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role" contenteditable="true">ادمین و طراح سایت (وردپرس) — آرسل اکسسوری</div>
-              <div class="item-date" contenteditable="true">فروردین ۱۴۰۴ تا کنون · ۱۰ ماه</div>
+              <div class="item-role">ادمین و طراح سایت (وردپرس) — آرسل اکسسوری</div>
+              <div class="item-date">فروردین ۱۴۰۴ تا کنون · ۱۰ ماه</div>
             </div>
-            <div class="item-sub" contenteditable="true">ایران، مشهد</div>
-            <div class="item-desc" contenteditable="true"></div>
+            <div class="item-sub">ایران، مشهد</div>
+            <div class="item-desc"></div>
           </div>
           <div class="item">
             <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role" contenteditable="true">ادمین و پشتیبان سایت — محصولات ارگانیک اکسیژن</div>
-              <div class="item-date" contenteditable="true">[تاریخ شروع] تا کنون</div>
+              <div class="item-role">ادمین و پشتیبان سایت — محصولات ارگانیک اکسیژن</div>
+              <div class="item-date">[تاریخ شروع] تا کنون</div>
             </div>
-            <div class="item-sub" contenteditable="true">ایران</div>
-            <div class="item-desc" contenteditable="true">پشتیبانی فنی و به‌روزرسانی سایت، همراه با انجام سئوی پایه (تحقیق کلمات کلیدی، بهینه‌سازی عنوان و متادیتا).</div>
+            <div class="item-sub">ایران</div>
+            <div class="item-desc">پشتیبانی فنی و به‌روزرسانی سایت، همراه با انجام سئوی پایه (تحقیق کلمات کلیدی، بهینه‌سازی عنوان و متادیتا).</div>
           </div>
           <div class="item">
             <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role" contenteditable="true">ادمین سایت — دلین شاپ</div>
-              <div class="item-date" contenteditable="true">اردیبهشت تا خرداد ۱۴۰۴ · ۱ ماه</div>
+              <div class="item-role">ادمین سایت — دلین شاپ</div>
+              <div class="item-date">اردیبهشت تا خرداد ۱۴۰۴ · ۱ ماه</div>
             </div>
-            <div class="item-sub" contenteditable="true">ایران، مشهد</div>
-            <div class="item-desc" contenteditable="true"></div>
+            <div class="item-sub">ایران، مشهد</div>
+            <div class="item-desc"></div>
           </div>
           <div class="item">
             <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role" contenteditable="true">کارآموز طراحی سایت — سیب سبز</div>
-              <div class="item-date" contenteditable="true">اسفند ۱۴۰۳ تا خرداد ۱۴۰۴ · ۳ ماه</div>
+              <div class="item-role">کارآموز طراحی سایت — سیب سبز</div>
+              <div class="item-date">اسفند ۱۴۰۳ تا خرداد ۱۴۰۴ · ۳ ماه</div>
             </div>
-            <div class="item-sub" contenteditable="true">ایران، تهران</div>
-            <div class="item-desc" contenteditable="true"></div>
+            <div class="item-sub">ایران، تهران</div>
+            <div class="item-desc"></div>
           </div>
         </div>
         <button class="add-btn" id="addExp">+ افزودن سابقه شغلی</button>
@@ -1040,9 +1027,9 @@
         <div id="eduList">
           <div class="edu-item item">
             <button class="del-btn" aria-label="حذف">✕</button>
-            <div class="edu-title" contenteditable="true">کارشناسی - فناوری اطلاعات IT</div>
-            <div class="edu-sub" contenteditable="true">دانشگاه فنی و حرفه‌ای دکتر شریعتی تهران</div>
-            <div class="edu-extra" contenteditable="true">در حال تحصیل · معدل: ۱۸</div>
+            <div class="edu-title">کارشناسی - فناوری اطلاعات IT</div>
+            <div class="edu-sub">دانشگاه فنی و حرفه‌ای دکتر شریعتی تهران</div>
+            <div class="edu-extra">در حال تحصیل · معدل: ۱۸</div>
           </div>
         </div>
         <button class="add-btn" id="addEdu">+ افزودن سابقه تحصیلی</button>
@@ -1054,27 +1041,27 @@
         <div id="courseList">
           <div class="edu-item item">
             <button class="del-btn" aria-label="حذف">✕</button>
-            <div class="edu-title" contenteditable="true">آموزش جامع سرچ کنسول گوگل</div>
-            <div class="edu-sub" contenteditable="true">مکتب خونه · طول دوره: ۱۰ ساعت · ۱۴۰۴</div>
-            <div class="edu-extra" contenteditable="true">مدرس: پوریا آریافر</div>
+            <div class="edu-title">آموزش جامع سرچ کنسول گوگل</div>
+            <div class="edu-sub">مکتب خونه · طول دوره: ۱۰ ساعت · ۱۴۰۴</div>
+            <div class="edu-extra">مدرس: پوریا آریافر</div>
           </div>
           <div class="edu-item item">
             <button class="del-btn" aria-label="حذف">✕</button>
-            <div class="edu-title" contenteditable="true">آموزش جامع گوگل آنالیتیکس ۴</div>
-            <div class="edu-sub" contenteditable="true">مکتب خونه · طول دوره: ۱۱ ساعت · ۱۴۰۴</div>
-            <div class="edu-extra" contenteditable="true">مدرس: محمد رخشانی‌زاده</div>
+            <div class="edu-title">آموزش جامع گوگل آنالیتیکس ۴</div>
+            <div class="edu-sub">مکتب خونه · طول دوره: ۱۱ ساعت · ۱۴۰۴</div>
+            <div class="edu-extra">مدرس: محمد رخشانی‌زاده</div>
           </div>
           <div class="edu-item item">
             <button class="del-btn" aria-label="حذف">✕</button>
-            <div class="edu-title" contenteditable="true">آموزش تحقیق کلمات کلیدی برای سئو (Keyword Research)</div>
-            <div class="edu-sub" contenteditable="true">مکتب خونه · طول دوره: ۱۶ ساعت · ۱۴۰۴</div>
-            <div class="edu-extra" contenteditable="true">مدرس: عادل طالبی</div>
+            <div class="edu-title">آموزش تحقیق کلمات کلیدی برای سئو (Keyword Research)</div>
+            <div class="edu-sub">مکتب خونه · طول دوره: ۱۶ ساعت · ۱۴۰۴</div>
+            <div class="edu-extra">مدرس: عادل طالبی</div>
           </div>
           <div class="edu-item item">
             <button class="del-btn" aria-label="حذف">✕</button>
-            <div class="edu-title" contenteditable="true">آموزش سئو کاربردی</div>
-            <div class="edu-sub" contenteditable="true">مکتب خونه · طول دوره: ۲۶ ساعت · ۱۴۰۴</div>
-            <div class="edu-extra" contenteditable="true">مدرس: حامد قربانی</div>
+            <div class="edu-title">آموزش سئو کاربردی</div>
+            <div class="edu-sub">مکتب خونه · طول دوره: ۲۶ ساعت · ۱۴۰۴</div>
+            <div class="edu-extra">مدرس: حامد قربانی</div>
           </div>
         </div>
         <button class="add-btn" id="addCourse">+ افزودن دوره</button>
@@ -1085,8 +1072,8 @@
         <h2 class="sec-title">زبان‌های خارجی</h2>
         <div class="chips" id="langList">
           <div class="chip">
-            <span contenteditable="true">انگلیسی</span>
-            <span class="lvl" contenteditable="true">متوسط</span>
+            <span>انگلیسی</span>
+            <span class="lvl">متوسط</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
         </div>
@@ -1098,63 +1085,63 @@
         <h2 class="sec-title">نرم‌افزارها</h2>
         <div class="chips" id="softwareGrid">
           <div class="chip">
-            <span contenteditable="true">Wordpress</span>
-            <span class="lvl" contenteditable="true">پیشرفته</span>
+            <span>Wordpress</span>
+            <span class="lvl">پیشرفته</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">HTML &amp; CSS</span>
-            <span class="lvl" contenteditable="true">متوسط</span>
+            <span>HTML &amp; CSS</span>
+            <span class="lvl">متوسط</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">MySql</span>
-            <span class="lvl" contenteditable="true">متوسط</span>
+            <span>MySql</span>
+            <span class="lvl">متوسط</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Microsoft Word</span>
-            <span class="lvl" contenteditable="true">متوسط</span>
+            <span>Microsoft Word</span>
+            <span class="lvl">متوسط</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Adobe Illustrator</span>
-            <span class="lvl" contenteditable="true">متوسط</span>
+            <span>Adobe Illustrator</span>
+            <span class="lvl">متوسط</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Microsoft Powerpoint</span>
-            <span class="lvl" contenteditable="true">متوسط</span>
+            <span>Microsoft Powerpoint</span>
+            <span class="lvl">متوسط</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Google Search Console</span>
-            <span class="lvl" contenteditable="true">متوسط</span>
+            <span>Google Search Console</span>
+            <span class="lvl">متوسط</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Microsoft Excel</span>
-            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <span>Microsoft Excel</span>
+            <span class="lvl">مقدماتی</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Adobe Photoshop</span>
-            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <span>Adobe Photoshop</span>
+            <span class="lvl">مقدماتی</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Google Analytics</span>
-            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <span>Google Analytics</span>
+            <span class="lvl">مقدماتی</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Python</span>
-            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <span>Python</span>
+            <span class="lvl">مقدماتی</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
           <div class="chip">
-            <span contenteditable="true">Microsoft Access</span>
-            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <span>Microsoft Access</span>
+            <span class="lvl">مقدماتی</span>
             <button class="del-chip" aria-label="حذف">✕</button>
           </div>
         </div>
@@ -1168,32 +1155,32 @@
       <!-- Personal Info -->
       <section class="sec">
         <h2 class="sec-title">مشخصات فردی</h2>
-        <div class="info-row"><span class="k">سن</span><span class="v" contenteditable="true">۲۱ سال</span></div>
-        <div class="info-row"><span class="k">جنسیت</span><span class="v" contenteditable="true">زن</span></div>
-        <div class="info-row"><span class="k">استان محل سکونت</span><span class="v" contenteditable="true">خراسان رضوی</span></div>
-        <div class="info-row"><span class="k">شهر محل سکونت</span><span class="v" contenteditable="true">مشهد</span></div>
-        <div class="info-row"><span class="k">وضعیت تاهل</span><span class="v" contenteditable="true">مجرد</span></div>
+        <div class="info-row"><span class="k">سن</span><span class="v">۲۱ سال</span></div>
+        <div class="info-row"><span class="k">جنسیت</span><span class="v">زن</span></div>
+        <div class="info-row"><span class="k">استان محل سکونت</span><span class="v">خراسان رضوی</span></div>
+        <div class="info-row"><span class="k">شهر محل سکونت</span><span class="v">مشهد</span></div>
+        <div class="info-row"><span class="k">وضعیت تاهل</span><span class="v">مجرد</span></div>
       </section>
 
       <!-- Contact -->
       <section class="sec">
         <h2 class="sec-title">اطلاعات تماس</h2>
-        <div class="info-row"><span class="k">موبایل</span><span class="v" contenteditable="true">۰۹۳۸۰۸۰۴۲۷۶</span></div>
-        <div class="info-row"><span class="k">ایمیل</span><span class="v" contenteditable="true" style="direction:ltr;">format1948@gmail.com</span></div>
+        <div class="info-row"><span class="k">موبایل</span><span class="v">۰۹۳۸۰۸۰۴۲۷۶</span></div>
+        <div class="info-row"><span class="k">ایمیل</span><span class="v" style="direction:ltr;">format1948@gmail.com</span></div>
       </section>
 
       <!-- Salary & Experience -->
       <section class="sec">
         <h2 class="sec-title">حقوق و سابقه کاری</h2>
-        <div class="info-row"><span class="k">میزان سابقه کاری</span><span class="v" contenteditable="true">۱ سال</span></div>
-        <div class="info-row"><span class="k">حقوق</span><span class="v" contenteditable="true">۱۲ - ۱۵ میلیون تومان</span></div>
+        <div class="info-row"><span class="k">میزان سابقه کاری</span><span class="v">۱ سال</span></div>
+        <div class="info-row"><span class="k">حقوق</span><span class="v">۱۲ - ۱۵ میلیون تومان</span></div>
       </section>
 
       <!-- Stats -->
       <section class="sec">
         <div class="stat-box">
-          <div class="num" contenteditable="true">+۲۰</div>
-          <div class="lbl" contenteditable="true">سایت طراحی‌شده اختصاصی</div>
+          <div class="num">+۲۰</div>
+          <div class="lbl">سایت طراحی‌شده اختصاصی</div>
         </div>
       </section>
     </aside>
@@ -1206,58 +1193,58 @@
       <div class="portfolio-grid" id="pfGrid">
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">نوین دیدگان استور</div>
-          <a href="https://novindideganstore.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">novindideganstore.ir</a>
+          <div class="pf-name">نوین دیدگان استور</div>
+          <a href="https://novindideganstore.ir" target="_blank" rel="noopener noreferrer">novindideganstore.ir</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">آرسل شاپ</div>
-          <a href="https://arselshop.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">arselshop.ir</a>
+          <div class="pf-name">آرسل شاپ</div>
+          <a href="https://arselshop.ir" target="_blank" rel="noopener noreferrer">arselshop.ir</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">هلما کالکشن</div>
-          <a href="https://helma-collection.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">helma-collection.ir</a>
+          <div class="pf-name">هلما کالکشن</div>
+          <a href="https://helma-collection.ir" target="_blank" rel="noopener noreferrer">helma-collection.ir</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">تکنو سلامت</div>
-          <a href="https://technosalamat.com" target="_blank" rel="noopener noreferrer" contenteditable="true">technosalamat.com</a>
+          <div class="pf-name">تکنو سلامت</div>
+          <a href="https://technosalamat.com" target="_blank" rel="noopener noreferrer">technosalamat.com</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">دی‌جی درگاهان</div>
-          <a href="https://djdargahan.com" target="_blank" rel="noopener noreferrer" contenteditable="true">djdargahan.com</a>
+          <div class="pf-name">دی‌جی درگاهان</div>
+          <a href="https://djdargahan.com" target="_blank" rel="noopener noreferrer">djdargahan.com</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">درگاهان گجت</div>
-          <a href="https://dargahangadget.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">dargahangadget.ir</a>
+          <div class="pf-name">درگاهان گجت</div>
+          <a href="https://dargahangadget.ir" target="_blank" rel="noopener noreferrer">dargahangadget.ir</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">ایماژ همراه</div>
-          <a href="https://emazhhamrah.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">emazhhamrah.ir</a>
+          <div class="pf-name">ایماژ همراه</div>
+          <a href="https://emazhhamrah.ir" target="_blank" rel="noopener noreferrer">emazhhamrah.ir</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">محسن پرفیومر</div>
-          <a href="https://mohsenperfumer.com" target="_blank" rel="noopener noreferrer" contenteditable="true">mohsenperfumer.com</a>
+          <div class="pf-name">محسن پرفیومر</div>
+          <a href="https://mohsenperfumer.com" target="_blank" rel="noopener noreferrer">mohsenperfumer.com</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">مزون لوکس</div>
-          <a href="https://mezoonlux.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">mezoonlux.ir</a>
+          <div class="pf-name">مزون لوکس</div>
+          <a href="https://mezoonlux.ir" target="_blank" rel="noopener noreferrer">mezoonlux.ir</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">رقص قلم</div>
-          <a href="https://raghseqalam.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">raghseqalam.ir</a>
+          <div class="pf-name">رقص قلم</div>
+          <a href="https://raghseqalam.ir" target="_blank" rel="noopener noreferrer">raghseqalam.ir</a>
         </div>
         <div class="pf-card">
           <button class="del-btn" aria-label="حذف">✕</button>
-          <div class="pf-name" contenteditable="true">پوشش نوین پلاستیک</div>
-          <a href="https://poosheshnovinplastic.com" target="_blank" rel="noopener noreferrer" contenteditable="true">poosheshnovinplastic.com</a>
+          <div class="pf-name">پوشش نوین پلاستیک</div>
+          <a href="https://poosheshnovinplastic.com" target="_blank" rel="noopener noreferrer">poosheshnovinplastic.com</a>
         </div>
       </div>
       <button class="add-btn" id="addPf">+ افزودن نمونه کار</button>
@@ -1265,15 +1252,16 @@
   </div>
 </div>
 
-<div class="hint">💡 این رزومه به‌صورت محلی روی مرورگر شما ذخیره می‌شود. برای ویرایش، روی «ویرایش» بزنید و رمز عبور را وارد کنید.</div>
+<div class="hint">💡 برای ویرایش رزومه، روی «ویرایش» بزنید و رمز عبور را وارد کنید.</div>
 
 <script>
 (function(){
   'use strict';
 
   // ===== Constants =====
-  const STORAGE_KEY = 'asal-resume-data-v2';
-  const HASH_KEY = 'asal-resume-edit-hash-v2';
+  const STORAGE_KEY = 'asal-resume-data-v3';
+  const HASH_KEY = 'asal-resume-edit-hash-v3';
+  const OWNER_KEY = 'asal-resume-owner-v3';
   
   // ===== DOM References =====
   const body = document.body;
@@ -1286,6 +1274,69 @@
 
   // ===== State =====
   let editing = false;
+  let isOwner = false;
+
+  // ===== Check if Owner =====
+  function checkOwner() {
+    const saved = localStorage.getItem(OWNER_KEY);
+    if (saved === 'true') {
+      isOwner = true;
+      body.classList.add('owner');
+    }
+    return isOwner;
+  }
+
+  // ===== Become Owner (First time setup) =====
+  async function becomeOwner() {
+    if (isOwner) return true;
+    
+    const p1 = prompt('🔐 برای دسترسی به ویرایش، یک رمز عبور تعیین کنید:');
+    if (!p1) return false;
+    
+    const p2 = prompt('🔐 رمز عبور را دوباره وارد کنید:');
+    if (p1 !== p2) {
+      alert('❌ رمزها یکسان نبودند.');
+      return false;
+    }
+    
+    const h = await sha256(p1);
+    localStorage.setItem(HASH_KEY, h);
+    localStorage.setItem(OWNER_KEY, 'true');
+    isOwner = true;
+    body.classList.add('owner');
+    return true;
+  }
+
+  // ===== Verify Password =====
+  async function verifyPassword() {
+    const savedHash = localStorage.getItem(HASH_KEY);
+    if (!savedHash) {
+      return await becomeOwner();
+    }
+    
+    const p = prompt('🔐 برای ورود به حالت ویرایش، رمز عبور را وارد کنید:');
+    if (p === null) return false;
+    
+    const h = await sha256(p);
+    if (h !== savedHash) {
+      alert('❌ رمز عبور نادرست است.');
+      return false;
+    }
+    
+    localStorage.setItem(OWNER_KEY, 'true');
+    isOwner = true;
+    body.classList.add('owner');
+    return true;
+  }
+
+  // ===== SHA256 =====
+  async function sha256(text) {
+    const enc = new TextEncoder().encode(text);
+    const buf = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(buf))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
 
   // ===== Utility Functions =====
   function setEditableAttrs(state) {
@@ -1301,52 +1352,16 @@
     return template.content.firstElementChild;
   }
 
-  // ===== Password Management =====
-  async function sha256(text) {
-    const enc = new TextEncoder().encode(text);
-    const buf = await crypto.subtle.digest('SHA-256', enc);
-    return Array.from(new Uint8Array(buf))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-  }
-
-  async function requestAccess() {
-    const savedHash = localStorage.getItem(HASH_KEY);
-    
-    if (!savedHash) {
-      const p1 = prompt('🔐 برای اولین بار، یک رمز عبور برای حالت ویرایش تعیین کنید:');
-      if (!p1) return false;
-      
-      const p2 = prompt('🔐 رمز عبور را دوباره وارد کنید:');
-      if (p1 !== p2) {
-        alert('❌ رمزها یکسان نبودند.');
-        return false;
-      }
-      
-      const h = await sha256(p1);
-      localStorage.setItem(HASH_KEY, h);
-      return true;
-    } else {
-      const p = prompt('🔐 برای ورود به حالت ویرایش، رمز عبور را وارد کنید:');
-      if (p === null) return false;
-      
-      const h = await sha256(p);
-      if (h !== savedHash) {
-        alert('❌ رمز عبور نادرست است.');
-        return false;
-      }
-      return true;
-    }
-  }
-
   // ===== Edit Mode Toggle =====
   const btnEdit = document.getElementById('btnEdit');
   
   btnEdit.addEventListener('click', async () => {
-    if (!editing) {
-      const ok = await requestAccess();
+    if (!isOwner) {
+      const ok = await verifyPassword();
       if (!ok) return;
-      
+    }
+    
+    if (!editing) {
       editing = true;
       body.classList.add('editing');
       setEditableAttrs(true);
@@ -1370,6 +1385,10 @@
   const btnDesign = document.getElementById('btnDesign');
   
   btnDesign.addEventListener('click', () => {
+    if (!isOwner) {
+      alert('⚠️ لطفاً ابتدا با کلیک روی «ویرایش» و وارد کردن رمز عبور، دسترسی خود را تأیید کنید.');
+      return;
+    }
     designPanel.classList.toggle('open');
   });
 
@@ -1378,7 +1397,7 @@
     window.print();
   });
 
-  // ===== Delete Items (Event Delegation) =====
+  // ===== Delete Items =====
   document.addEventListener('click', (e) => {
     const target = e.target;
     
@@ -1580,7 +1599,7 @@
       }, 1500);
     } catch (err) {
       console.error('Save error:', err);
-      alert('❌ ذخیره‌سازی با خطا مواجه شد. فضای ذخیره‌سازی مرورگر ممکن است پر باشد.');
+      alert('❌ ذخیره‌سازی با خطا مواجه شد.');
     }
   }
 
@@ -1625,16 +1644,13 @@
   // ===== Save Button =====
   document.getElementById('btnSave').addEventListener('click', saveState);
 
-  // ===== Auto-save on content change =====
+  // ===== Auto-save =====
   document.addEventListener('input', (e) => {
     if (editing && e.target.closest('[contenteditable="true"]')) {
       clearTimeout(window._saveTimeout);
       window._saveTimeout = setTimeout(saveState, 500);
     }
   });
-
-  // ===== Initialize =====
-  loadState();
 
   // ===== Keyboard Shortcuts =====
   document.addEventListener('keydown', (e) => {
@@ -1648,8 +1664,12 @@
     }
   });
 
+  // ===== Initialize =====
+  checkOwner();
+  loadState();
+
   console.log('📄 Resume loaded successfully!');
-  console.log('💡 Tip: Click "ویرایش" to modify content, "طراحی" to customize colors.');
+  console.log('💡 برای ویرایش روی "ویرایش" کلیک کنید.');
 
 })();
 </script>
