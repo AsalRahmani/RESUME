@@ -19,14 +19,17 @@
     --primary-dark: #3D1E99;
     --sunset: #FF6B4A;
     --teal: #12B8A6;
+    --gold: #FFB100;
     --font-display: 'Vazirmatn', sans-serif;
     --font-body: 'Vazirmatn', sans-serif;
+    --radius: 18px;
     --shadow: 0 40px 80px rgba(0,0,0,.45);
     --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* ===== Reset ===== */
+  /* ===== Reset & Base ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  
   html { scroll-behavior: smooth; }
   
   body {
@@ -34,11 +37,12 @@
     background: #0d0b1a;
     color: var(--ink);
     min-height: 100vh;
-    padding: 90px 16px 40px;
+    padding: 32px 16px 120px;
     background-image:
       radial-gradient(circle at 15% 10%, rgba(108,60,233,.35), transparent 40%),
       radial-gradient(circle at 85% 0%, rgba(255,107,74,.25), transparent 45%),
       radial-gradient(circle at 50% 100%, rgba(18,184,166,.18), transparent 40%);
+    background-attachment: fixed;
   }
 
   /* ===== Toolbar ===== */
@@ -52,8 +56,9 @@
     gap: 8px;
     flex-wrap: wrap;
     padding: 10px 16px;
-    background: rgba(13,11,26,.95);
+    background: rgba(13,11,26,.92);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,.08);
     box-shadow: 0 4px 20px rgba(0,0,0,.3);
   }
@@ -73,11 +78,16 @@
     gap: 6px;
     transition: var(--transition);
     white-space: nowrap;
+    user-select: none;
   }
   
   .toolbar button:hover {
     background: rgba(255,255,255,.16);
     transform: translateY(-1px);
+  }
+  
+  .toolbar button:active {
+    transform: scale(0.96);
   }
   
   .toolbar button.active {
@@ -106,6 +116,7 @@
     z-index: 999;
     background: rgba(20,17,36,.98);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 16px;
     padding: 20px;
@@ -115,15 +126,28 @@
     gap: 14px;
     color: #fff;
     box-shadow: 0 20px 40px rgba(0,0,0,.5);
+    transform-origin: top right;
+    animation: slideDown 0.3s ease;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
   
   .design-panel.open { display: flex; }
   
   .design-panel h4 {
+    margin: 0 0 4px;
     font-size: 13px;
     color: rgba(255,255,255,.7);
     font-weight: 600;
-    margin-bottom: 4px;
   }
   
   .design-row {
@@ -144,6 +168,15 @@
     padding: 2px;
   }
   
+  .design-row input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 2px;
+  }
+  
+  .design-row input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+  }
+  
   .design-panel select {
     font-family: var(--font-body);
     background: rgba(255,255,255,.08);
@@ -154,6 +187,11 @@
     font-size: 12px;
     width: 100%;
     cursor: pointer;
+  }
+  
+  .design-panel select:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
   
   .design-panel .reset-btn {
@@ -176,14 +214,15 @@
   /* ===== Resume Card ===== */
   .page {
     max-width: 980px;
-    margin: 0 auto;
+    margin: 70px auto 0;
     background: var(--paper);
     border-radius: 26px;
     overflow: hidden;
     box-shadow: var(--shadow);
+    transition: box-shadow var(--transition);
   }
 
-  /* ===== Hero ===== */
+  /* ===== Hero Section ===== */
   .hero {
     position: relative;
     padding: 38px 40px 34px;
@@ -328,7 +367,9 @@
   }
   
   @media (max-width: 768px) {
-    .layout { grid-template-columns: 1fr; }
+    .layout {
+      grid-template-columns: 1fr;
+    }
   }
 
   .main-col {
@@ -376,6 +417,10 @@
     background: var(--sunset);
     display: inline-block;
     flex-shrink: 0;
+  }
+  
+  .side-col .sec-title {
+    color: var(--primary-dark);
   }
 
   p.bio {
@@ -436,7 +481,6 @@
   /* ===== Education & Courses ===== */
   .edu-item {
     margin-bottom: 16px;
-    position: relative;
   }
   
   .edu-item:last-child {
@@ -478,7 +522,6 @@
     align-items: center;
     gap: 8px;
     transition: var(--transition);
-    position: relative;
   }
   
   .chip .lvl {
@@ -489,8 +532,12 @@
     padding: 2px 8px;
     border-radius: 6px;
   }
+  
+  .side-col .chip {
+    background: #fff;
+  }
 
-  /* ===== Sidebar ===== */
+  /* ===== Sidebar Info ===== */
   .info-row {
     display: flex;
     justify-content: space-between;
@@ -539,6 +586,41 @@
     margin-top: 2px;
   }
 
+  /* ===== Links ===== */
+  .link-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--panel-line);
+  }
+  
+  .link-row:last-child {
+    border-bottom: none;
+  }
+  
+  .link-row a {
+    color: var(--primary-dark);
+    text-decoration: none;
+    font-weight: 600;
+    word-break: break-all;
+    transition: var(--transition);
+  }
+  
+  .link-row a:hover {
+    text-decoration: underline;
+    color: var(--primary);
+  }
+  
+  .link-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex: 0 0 auto;
+  }
+
   /* ===== Portfolio ===== */
   .portfolio-grid {
     display: grid;
@@ -581,7 +663,7 @@
     color: var(--primary-dark);
   }
 
-  /* ===== Edit Mode ===== */
+  /* ===== Edit Mode Styles ===== */
   [contenteditable="true"] {
     outline: 2px dashed transparent;
     border-radius: 6px;
@@ -655,6 +737,10 @@
     border-color: var(--primary-dark);
     transform: translateY(-1px);
   }
+  
+  .add-btn:active {
+    transform: scale(0.98);
+  }
 
   .chip .del-chip {
     display: none;
@@ -677,6 +763,7 @@
     display: inline;
   }
 
+  /* ===== Footer Hint ===== */
   .hint {
     max-width: 980px;
     margin: 14px auto 0;
@@ -686,7 +773,7 @@
     line-height: 1.8;
   }
 
-  /* ===== Print ===== */
+  /* ===== Print Styles ===== */
   @media print {
     body {
       background: #fff;
@@ -709,14 +796,24 @@
       max-width: 100%;
     }
     
-    .hero { break-inside: avoid; }
-    .item { break-inside: avoid; }
-    .pf-card { break-inside: avoid; }
+    .hero {
+      break-inside: avoid;
+    }
+    
+    .item {
+      break-inside: avoid;
+    }
+    
+    .pf-card {
+      break-inside: avoid;
+    }
   }
 
   /* ===== Responsive ===== */
   @media (max-width: 600px) {
-    body { padding: 80px 8px 40px; }
+    body {
+      padding: 16px 8px 100px;
+    }
     
     .toolbar {
       gap: 4px;
@@ -730,6 +827,10 @@
     
     .toolbar .status {
       font-size: 10px;
+    }
+    
+    .toolbar .divider {
+      height: 16px;
     }
     
     .hero {
@@ -746,9 +847,17 @@
       flex-wrap: wrap;
     }
     
-    .hero-text h1 { font-size: 24px; }
-    .hero-text .role { font-size: 13px; }
-    .hero-text .role-sub { font-size: 11.5px; }
+    .hero-text h1 {
+      font-size: 24px;
+    }
+    
+    .hero-text .role {
+      font-size: 13px;
+    }
+    
+    .hero-text .role-sub {
+      font-size: 11.5px;
+    }
     
     .avatar {
       width: 80px;
@@ -756,8 +865,13 @@
       font-size: 24px;
     }
     
-    .main-col { padding: 20px; }
-    .side-col { padding: 20px; }
+    .main-col {
+      padding: 20px;
+    }
+    
+    .side-col {
+      padding: 20px;
+    }
     
     .design-panel {
       right: 8px;
@@ -767,61 +881,80 @@
       padding: 16px;
     }
     
-    .portfolio-grid { grid-template-columns: 1fr; }
-    .badge-row { justify-content: center; }
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .badge-row {
+      justify-content: center;
+    }
   }
 </style>
 </head>
 <body>
 
 <!-- ===== Toolbar ===== -->
-<div class="toolbar" role="toolbar">
-  <button id="btnEdit">🔓 <span>ویرایش</span></button>
-  <button id="btnDesign">🎨 <span>طراحی</span></button>
-  <button id="btnSave">💾 <span>ذخیره</span></button>
-  <button id="btnPrint">🖨️ <span>خروجی PDF</span></button>
+<div class="toolbar" role="toolbar" aria-label="کنترل‌های رزومه">
+  <button id="btnEdit" aria-label="ویرایش رزومه">🔓 <span>ویرایش</span></button>
+  <button id="btnDesign" aria-label="تنظیمات طراحی">🎨 <span>طراحی</span></button>
+  <button id="btnSave" aria-label="ذخیره تغییرات">💾 <span>ذخیره</span></button>
+  <button id="btnPrint" aria-label="چاپ یا خروجی PDF">🖨️ <span>خروجی PDF</span></button>
   <div class="divider" aria-hidden="true"></div>
-  <span class="status" id="statusText">👁️ حالت نمایش</span>
+  <span class="status" id="statusText" aria-live="polite">حالت نمایش</span>
 </div>
 
 <!-- ===== Design Panel ===== -->
-<div class="design-panel" id="designPanel">
+<div class="design-panel" id="designPanel" role="dialog" aria-label="پنل طراحی">
   <h4>🎨 رنگ‌بندی</h4>
-  <div class="design-row"><span>رنگ اصلی</span><input type="color" id="cPrimary" value="#6C3CE9"></div>
-  <div class="design-row"><span>رنگ غروب</span><input type="color" id="cSunset" value="#FF6B4A"></div>
-  <div class="design-row"><span>رنگ فیروزه‌ای</span><input type="color" id="cTeal" value="#12B8A6"></div>
-  <div class="design-row"><span>رنگ متن</span><input type="color" id="cInk" value="#1B1730"></div>
+  <div class="design-row">
+    <span>رنگ اصلی</span>
+    <input type="color" id="cPrimary" value="#6C3CE9" aria-label="رنگ اصلی">
+  </div>
+  <div class="design-row">
+    <span>رنگ غروب</span>
+    <input type="color" id="cSunset" value="#FF6B4A" aria-label="رنگ غروب">
+  </div>
+  <div class="design-row">
+    <span>رنگ فیروزه‌ای</span>
+    <input type="color" id="cTeal" value="#12B8A6" aria-label="رنگ فیروزه‌ای">
+  </div>
+  <div class="design-row">
+    <span>رنگ متن</span>
+    <input type="color" id="cInk" value="#1B1730" aria-label="رنگ متن">
+  </div>
+  
   <h4>🔤 فونت</h4>
-  <select id="fontSelect">
+  <select id="fontSelect" aria-label="انتخاب فونت">
     <option value="'Vazirmatn', sans-serif">وزیرمتن</option>
     <option value="'Estedad', sans-serif">استعداد</option>
   </select>
+  
   <button class="reset-btn" id="btnReset">↺ بازگشت به حالت پیش‌فرض</button>
 </div>
 
 <!-- ===== Resume Page ===== -->
-<div class="page" id="resumePage">
+<div class="page" id="resumePage" role="main">
 
   <!-- Hero -->
   <header class="hero">
     <div class="meta-line">
-      <span>بروزرسانی: <b id="updateDate">۲۶ دی ۱۴۰۴</b></span>
-      <span>شناسه: <b id="userId">JV-30438369</b></span>
+      <span>بروزرسانی: <b contenteditable="true" id="updateDate">۲۶ دی ۱۴۰۴</b></span>
+      <span>شناسه: <b contenteditable="true" id="userId">JV-30438369</b></span>
     </div>
     
-    <div class="avatar" id="avatarBox" style="background-image:url('https://api.dicebear.com/7.x/initials/svg?seed=Asal&backgroundColor=6C3CE9');">
-      <div class="cam" id="camBtn">📷</div>
-      <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+    <div class="avatar" id="avatarBox" role="img" aria-label="آواتار" style="background-image:url('https://api.dicebear.com/7.x/initials/svg?seed=Asal&backgroundColor=6C3CE9');">
+      <div class="cam" id="camBtn" role="button" aria-label="آپلود عکس پروفایل">📷</div>
+      <input type="file" id="avatarInput" accept="image/*" style="display:none;" aria-label="انتخاب عکس">
     </div>
     
     <div class="hero-text">
-      <h1 id="fullName">عسل رحمانی</h1>
-      <div class="role" id="roleTitle">طراح و ادمین سایت وردپرسی</div>
-      <div class="role-sub" id="roleSub">حدود ۱ سال تجربه‌ی عملی در طراحی، راه‌اندازی و پشتیبانی سایت‌های فروشگاهی و شرکتی با وردپرس، همراه با آشنایی عملی با سئوی پایه.</div>
+      <h1 contenteditable="true" id="fullName">عسل رحمانی</h1>
+      <div class="role" contenteditable="true" id="roleTitle">طراح و ادمین سایت وردپرسی</div>
+      <div class="role-sub" contenteditable="true" id="roleSub">حدود ۱ سال تجربه‌ی عملی در طراحی، راه‌اندازی و پشتیبانی سایت‌های فروشگاهی و شرکتی با وردپرس، همراه با آشنایی عملی با سئوی پایه.</div>
       <div class="badge-row">
-        <span class="badge">وردپرس پیشرفته</span>
-        <span class="badge">طراح رابط کاربری</span>
-        <span class="badge">سئوی پایه</span>
+        <span class="badge" contenteditable="true">وردپرس پیشرفته</span>
+        <span class="badge" contenteditable="true">طراح رابط کاربری</span>
+        <span class="badge" contenteditable="true">سئوی پایه</span>
       </div>
     </div>
   </header>
@@ -833,7 +966,7 @@
       <!-- About -->
       <section class="sec">
         <h2 class="sec-title">درباره من</h2>
-        <p class="bio" id="bioText">
+        <p class="bio" contenteditable="true" id="bioText">
           طراح سایت وردپرسی و ادمین سایت با تجربه‌ی عملی در طراحی، راه‌اندازی و پشتیبانی فروشگاه‌های اینترنتی و سایت‌های شرکتی. در پروژه‌های اخیر بخشی از نیازهای اختصاصی سایت‌ها را نیز با کمک ابزارهای هوش مصنوعی شخصی‌سازی و پیاده‌سازی می‌کنم و با اصول سئوی پایه هم آشنایی عملی دارم.
         </p>
       </section>
@@ -843,58 +976,58 @@
         <h2 class="sec-title">سوابق شغلی</h2>
         <div id="expList">
           <div class="item">
-            <button class="del-btn">✕</button>
+            <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role">طراح سایت وردپرسی — دیجیتال مارکتینگ دیما هلد</div>
-              <div class="item-date">[تاریخ شروع] تا کنون · ۳ ماه</div>
+              <div class="item-role" contenteditable="true">طراح سایت وردپرسی — دیجیتال مارکتینگ دیما هلد</div>
+              <div class="item-date" contenteditable="true">[تاریخ شروع] تا کنون · ۳ ماه</div>
             </div>
-            <div class="item-sub">ایران</div>
-            <div class="item-desc">طراحی و پیاده‌سازی سایت‌های وردپرسی برای پروژه‌های مختلف شرکت. شخصی‌سازی و توسعه‌ی افزونه‌های وردپرس متناسب با نیاز هر پروژه با کمک ابزارهای هوش مصنوعی و مستندات وردپرس. پیاده‌سازی قابلیت‌های اختصاصی که به‌صورت پیش‌فرض در وردپرس وجود ندارد.</div>
+            <div class="item-sub" contenteditable="true">ایران</div>
+            <div class="item-desc" contenteditable="true">طراحی و پیاده‌سازی سایت‌های وردپرسی برای پروژه‌های مختلف شرکت. شخصی‌سازی و توسعه‌ی افزونه‌های وردپرس متناسب با نیاز هر پروژه با کمک ابزارهای هوش مصنوعی و مستندات وردپرس. پیاده‌سازی قابلیت‌های اختصاصی که به‌صورت پیش‌فرض در وردپرس وجود ندارد.</div>
           </div>
           <div class="item">
-            <button class="del-btn">✕</button>
+            <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role">طراح سایت — ایماژ همراه</div>
-              <div class="item-date">مهر ۱۴۰۴ تا کنون · ۴ ماه</div>
+              <div class="item-role" contenteditable="true">طراح سایت — ایماژ همراه</div>
+              <div class="item-date" contenteditable="true">مهر ۱۴۰۴ تا کنون · ۴ ماه</div>
             </div>
-            <div class="item-sub">ایران، تهران</div>
-            <div class="item-desc"></div>
+            <div class="item-sub" contenteditable="true">ایران، تهران</div>
+            <div class="item-desc" contenteditable="true"></div>
           </div>
           <div class="item">
-            <button class="del-btn">✕</button>
+            <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role">ادمین و طراح سایت (وردپرس) — آرسل اکسسوری</div>
-              <div class="item-date">فروردین ۱۴۰۴ تا کنون · ۱۰ ماه</div>
+              <div class="item-role" contenteditable="true">ادمین و طراح سایت (وردپرس) — آرسل اکسسوری</div>
+              <div class="item-date" contenteditable="true">فروردین ۱۴۰۴ تا کنون · ۱۰ ماه</div>
             </div>
-            <div class="item-sub">ایران، مشهد</div>
-            <div class="item-desc"></div>
+            <div class="item-sub" contenteditable="true">ایران، مشهد</div>
+            <div class="item-desc" contenteditable="true"></div>
           </div>
           <div class="item">
-            <button class="del-btn">✕</button>
+            <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role">ادمین و پشتیبان سایت — محصولات ارگانیک اکسیژن</div>
-              <div class="item-date">[تاریخ شروع] تا کنون</div>
+              <div class="item-role" contenteditable="true">ادمین و پشتیبان سایت — محصولات ارگانیک اکسیژن</div>
+              <div class="item-date" contenteditable="true">[تاریخ شروع] تا کنون</div>
             </div>
-            <div class="item-sub">ایران</div>
-            <div class="item-desc">پشتیبانی فنی و به‌روزرسانی سایت، همراه با انجام سئوی پایه (تحقیق کلمات کلیدی، بهینه‌سازی عنوان و متادیتا).</div>
+            <div class="item-sub" contenteditable="true">ایران</div>
+            <div class="item-desc" contenteditable="true">پشتیبانی فنی و به‌روزرسانی سایت، همراه با انجام سئوی پایه (تحقیق کلمات کلیدی، بهینه‌سازی عنوان و متادیتا).</div>
           </div>
           <div class="item">
-            <button class="del-btn">✕</button>
+            <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role">ادمین سایت — دلین شاپ</div>
-              <div class="item-date">اردیبهشت تا خرداد ۱۴۰۴ · ۱ ماه</div>
+              <div class="item-role" contenteditable="true">ادمین سایت — دلین شاپ</div>
+              <div class="item-date" contenteditable="true">اردیبهشت تا خرداد ۱۴۰۴ · ۱ ماه</div>
             </div>
-            <div class="item-sub">ایران، مشهد</div>
-            <div class="item-desc"></div>
+            <div class="item-sub" contenteditable="true">ایران، مشهد</div>
+            <div class="item-desc" contenteditable="true"></div>
           </div>
           <div class="item">
-            <button class="del-btn">✕</button>
+            <button class="del-btn" aria-label="حذف">✕</button>
             <div class="item-top">
-              <div class="item-role">کارآموز طراحی سایت — سیب سبز</div>
-              <div class="item-date">اسفند ۱۴۰۳ تا خرداد ۱۴۰۴ · ۳ ماه</div>
+              <div class="item-role" contenteditable="true">کارآموز طراحی سایت — سیب سبز</div>
+              <div class="item-date" contenteditable="true">اسفند ۱۴۰۳ تا خرداد ۱۴۰۴ · ۳ ماه</div>
             </div>
-            <div class="item-sub">ایران، تهران</div>
-            <div class="item-desc"></div>
+            <div class="item-sub" contenteditable="true">ایران، تهران</div>
+            <div class="item-desc" contenteditable="true"></div>
           </div>
         </div>
         <button class="add-btn" id="addExp">+ افزودن سابقه شغلی</button>
@@ -905,10 +1038,10 @@
         <h2 class="sec-title">سوابق تحصیلی</h2>
         <div id="eduList">
           <div class="edu-item item">
-            <button class="del-btn">✕</button>
-            <div class="edu-title">کارشناسی - فناوری اطلاعات IT</div>
-            <div class="edu-sub">دانشگاه فنی و حرفه‌ای دکتر شریعتی تهران</div>
-            <div class="edu-extra">در حال تحصیل · معدل: ۱۸</div>
+            <button class="del-btn" aria-label="حذف">✕</button>
+            <div class="edu-title" contenteditable="true">کارشناسی - فناوری اطلاعات IT</div>
+            <div class="edu-sub" contenteditable="true">دانشگاه فنی و حرفه‌ای دکتر شریعتی تهران</div>
+            <div class="edu-extra" contenteditable="true">در حال تحصیل · معدل: ۱۸</div>
           </div>
         </div>
         <button class="add-btn" id="addEdu">+ افزودن سابقه تحصیلی</button>
@@ -919,28 +1052,28 @@
         <h2 class="sec-title">دوره‌های آموزشی</h2>
         <div id="courseList">
           <div class="edu-item item">
-            <button class="del-btn">✕</button>
-            <div class="edu-title">آموزش جامع سرچ کنسول گوگل</div>
-            <div class="edu-sub">مکتب خونه · طول دوره: ۱۰ ساعت · ۱۴۰۴</div>
-            <div class="edu-extra">مدرس: پوریا آریافر</div>
+            <button class="del-btn" aria-label="حذف">✕</button>
+            <div class="edu-title" contenteditable="true">آموزش جامع سرچ کنسول گوگل</div>
+            <div class="edu-sub" contenteditable="true">مکتب خونه · طول دوره: ۱۰ ساعت · ۱۴۰۴</div>
+            <div class="edu-extra" contenteditable="true">مدرس: پوریا آریافر</div>
           </div>
           <div class="edu-item item">
-            <button class="del-btn">✕</button>
-            <div class="edu-title">آموزش جامع گوگل آنالیتیکس ۴</div>
-            <div class="edu-sub">مکتب خونه · طول دوره: ۱۱ ساعت · ۱۴۰۴</div>
-            <div class="edu-extra">مدرس: محمد رخشانی‌زاده</div>
+            <button class="del-btn" aria-label="حذف">✕</button>
+            <div class="edu-title" contenteditable="true">آموزش جامع گوگل آنالیتیکس ۴</div>
+            <div class="edu-sub" contenteditable="true">مکتب خونه · طول دوره: ۱۱ ساعت · ۱۴۰۴</div>
+            <div class="edu-extra" contenteditable="true">مدرس: محمد رخشانی‌زاده</div>
           </div>
           <div class="edu-item item">
-            <button class="del-btn">✕</button>
-            <div class="edu-title">آموزش تحقیق کلمات کلیدی برای سئو (Keyword Research)</div>
-            <div class="edu-sub">مکتب خونه · طول دوره: ۱۶ ساعت · ۱۴۰۴</div>
-            <div class="edu-extra">مدرس: عادل طالبی</div>
+            <button class="del-btn" aria-label="حذف">✕</button>
+            <div class="edu-title" contenteditable="true">آموزش تحقیق کلمات کلیدی برای سئو (Keyword Research)</div>
+            <div class="edu-sub" contenteditable="true">مکتب خونه · طول دوره: ۱۶ ساعت · ۱۴۰۴</div>
+            <div class="edu-extra" contenteditable="true">مدرس: عادل طالبی</div>
           </div>
           <div class="edu-item item">
-            <button class="del-btn">✕</button>
-            <div class="edu-title">آموزش سئو کاربردی</div>
-            <div class="edu-sub">مکتب خونه · طول دوره: ۲۶ ساعت · ۱۴۰۴</div>
-            <div class="edu-extra">مدرس: حامد قربانی</div>
+            <button class="del-btn" aria-label="حذف">✕</button>
+            <div class="edu-title" contenteditable="true">آموزش سئو کاربردی</div>
+            <div class="edu-sub" contenteditable="true">مکتب خونه · طول دوره: ۲۶ ساعت · ۱۴۰۴</div>
+            <div class="edu-extra" contenteditable="true">مدرس: حامد قربانی</div>
           </div>
         </div>
         <button class="add-btn" id="addCourse">+ افزودن دوره</button>
@@ -951,9 +1084,9 @@
         <h2 class="sec-title">زبان‌های خارجی</h2>
         <div class="chips" id="langList">
           <div class="chip">
-            <span>انگلیسی</span>
-            <span class="lvl">متوسط</span>
-            <button class="del-chip">✕</button>
+            <span contenteditable="true">انگلیسی</span>
+            <span class="lvl" contenteditable="true">متوسط</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
           </div>
         </div>
         <button class="add-btn" id="addLang">+ افزودن زبان</button>
@@ -963,18 +1096,66 @@
       <section class="sec">
         <h2 class="sec-title">نرم‌افزارها</h2>
         <div class="chips" id="softwareGrid">
-          <div class="chip"><span>Wordpress</span><span class="lvl">پیشرفته</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>HTML &amp; CSS</span><span class="lvl">متوسط</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>MySql</span><span class="lvl">متوسط</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Microsoft Word</span><span class="lvl">متوسط</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Adobe Illustrator</span><span class="lvl">متوسط</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Microsoft Powerpoint</span><span class="lvl">متوسط</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Google Search Console</span><span class="lvl">متوسط</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Microsoft Excel</span><span class="lvl">مقدماتی</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Adobe Photoshop</span><span class="lvl">مقدماتی</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Google Analytics</span><span class="lvl">مقدماتی</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Python</span><span class="lvl">مقدماتی</span><button class="del-chip">✕</button></div>
-          <div class="chip"><span>Microsoft Access</span><span class="lvl">مقدماتی</span><button class="del-chip">✕</button></div>
+          <div class="chip">
+            <span contenteditable="true">Wordpress</span>
+            <span class="lvl" contenteditable="true">پیشرفته</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">HTML &amp; CSS</span>
+            <span class="lvl" contenteditable="true">متوسط</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">MySql</span>
+            <span class="lvl" contenteditable="true">متوسط</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Microsoft Word</span>
+            <span class="lvl" contenteditable="true">متوسط</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Adobe Illustrator</span>
+            <span class="lvl" contenteditable="true">متوسط</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Microsoft Powerpoint</span>
+            <span class="lvl" contenteditable="true">متوسط</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Google Search Console</span>
+            <span class="lvl" contenteditable="true">متوسط</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Microsoft Excel</span>
+            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Adobe Photoshop</span>
+            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Google Analytics</span>
+            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Python</span>
+            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
+          <div class="chip">
+            <span contenteditable="true">Microsoft Access</span>
+            <span class="lvl" contenteditable="true">مقدماتی</span>
+            <button class="del-chip" aria-label="حذف">✕</button>
+          </div>
         </div>
         <button class="add-btn" id="addSoft">+ افزودن نرم‌افزار</button>
       </section>
@@ -982,31 +1163,36 @@
 
     <!-- Side Column -->
     <aside class="side-col">
+      
+      <!-- Personal Info -->
       <section class="sec">
         <h2 class="sec-title">مشخصات فردی</h2>
-        <div class="info-row"><span class="k">سن</span><span class="v">۲۱ سال</span></div>
-        <div class="info-row"><span class="k">جنسیت</span><span class="v">زن</span></div>
-        <div class="info-row"><span class="k">استان محل سکونت</span><span class="v">خراسان رضوی</span></div>
-        <div class="info-row"><span class="k">شهر محل سکونت</span><span class="v">مشهد</span></div>
-        <div class="info-row"><span class="k">وضعیت تاهل</span><span class="v">مجرد</span></div>
+        <div class="info-row"><span class="k">سن</span><span class="v" contenteditable="true">۲۱ سال</span></div>
+        <div class="info-row"><span class="k">جنسیت</span><span class="v" contenteditable="true">زن</span></div>
+        <div class="info-row"><span class="k">استان محل سکونت</span><span class="v" contenteditable="true">خراسان رضوی</span></div>
+        <div class="info-row"><span class="k">شهر محل سکونت</span><span class="v" contenteditable="true">مشهد</span></div>
+        <div class="info-row"><span class="k">وضعیت تاهل</span><span class="v" contenteditable="true">مجرد</span></div>
       </section>
 
+      <!-- Contact -->
       <section class="sec">
         <h2 class="sec-title">اطلاعات تماس</h2>
-        <div class="info-row"><span class="k">موبایل</span><span class="v">۰۹۳۸۰۸۰۴۲۷۶</span></div>
-        <div class="info-row"><span class="k">ایمیل</span><span class="v" style="direction:ltr;">format1948@gmail.com</span></div>
+        <div class="info-row"><span class="k">موبایل</span><span class="v" contenteditable="true">۰۹۳۸۰۸۰۴۲۷۶</span></div>
+        <div class="info-row"><span class="k">ایمیل</span><span class="v" contenteditable="true" style="direction:ltr;">format1948@gmail.com</span></div>
       </section>
 
+      <!-- Salary & Experience -->
       <section class="sec">
         <h2 class="sec-title">حقوق و سابقه کاری</h2>
-        <div class="info-row"><span class="k">میزان سابقه کاری</span><span class="v">۱ سال</span></div>
-        <div class="info-row"><span class="k">حقوق</span><span class="v">۱۲ - ۱۵ میلیون تومان</span></div>
+        <div class="info-row"><span class="k">میزان سابقه کاری</span><span class="v" contenteditable="true">۱ سال</span></div>
+        <div class="info-row"><span class="k">حقوق</span><span class="v" contenteditable="true">۱۲ - ۱۵ میلیون تومان</span></div>
       </section>
 
+      <!-- Stats -->
       <section class="sec">
         <div class="stat-box">
-          <div class="num">+۲۰</div>
-          <div class="lbl">سایت طراحی‌شده اختصاصی</div>
+          <div class="num" contenteditable="true">+۲۰</div>
+          <div class="lbl" contenteditable="true">سایت طراحی‌شده اختصاصی</div>
         </div>
       </section>
     </aside>
@@ -1017,35 +1203,78 @@
     <section class="sec">
       <h2 class="sec-title">نمونه کار طراحی سایت</h2>
       <div class="portfolio-grid" id="pfGrid">
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">نوین دیدگان استور</div><a href="https://novindideganstore.ir" target="_blank" rel="noopener noreferrer">novindideganstore.ir</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">آرسل شاپ</div><a href="https://arselshop.ir" target="_blank" rel="noopener noreferrer">arselshop.ir</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">هلما کالکشن</div><a href="https://helma-collection.ir" target="_blank" rel="noopener noreferrer">helma-collection.ir</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">تکنو سلامت</div><a href="https://technosalamat.com" target="_blank" rel="noopener noreferrer">technosalamat.com</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">دی‌جی درگاهان</div><a href="https://djdargahan.com" target="_blank" rel="noopener noreferrer">djdargahan.com</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">درگاهان گجت</div><a href="https://dargahangadget.ir" target="_blank" rel="noopener noreferrer">dargahangadget.ir</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">ایماژ همراه</div><a href="https://emazhhamrah.ir" target="_blank" rel="noopener noreferrer">emazhhamrah.ir</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">محسن پرفیومر</div><a href="https://mohsenperfumer.com" target="_blank" rel="noopener noreferrer">mohsenperfumer.com</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">مزون لوکس</div><a href="https://mezoonlux.ir" target="_blank" rel="noopener noreferrer">mezoonlux.ir</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">رقص قلم</div><a href="https://raghseqalam.ir" target="_blank" rel="noopener noreferrer">raghseqalam.ir</a></div>
-        <div class="pf-card"><button class="del-btn">✕</button><div class="pf-name">پوشش نوین پلاستیک</div><a href="https://poosheshnovinplastic.com" target="_blank" rel="noopener noreferrer">poosheshnovinplastic.com</a></div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">نوین دیدگان استور</div>
+          <a href="https://novindideganstore.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">novindideganstore.ir</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">آرسل شاپ</div>
+          <a href="https://arselshop.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">arselshop.ir</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">هلما کالکشن</div>
+          <a href="https://helma-collection.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">helma-collection.ir</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">تکنو سلامت</div>
+          <a href="https://technosalamat.com" target="_blank" rel="noopener noreferrer" contenteditable="true">technosalamat.com</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">دی‌جی درگاهان</div>
+          <a href="https://djdargahan.com" target="_blank" rel="noopener noreferrer" contenteditable="true">djdargahan.com</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">درگاهان گجت</div>
+          <a href="https://dargahangadget.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">dargahangadget.ir</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">ایماژ همراه</div>
+          <a href="https://emazhhamrah.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">emazhhamrah.ir</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">محسن پرفیومر</div>
+          <a href="https://mohsenperfumer.com" target="_blank" rel="noopener noreferrer" contenteditable="true">mohsenperfumer.com</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">مزون لوکس</div>
+          <a href="https://mezoonlux.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">mezoonlux.ir</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">رقص قلم</div>
+          <a href="https://raghseqalam.ir" target="_blank" rel="noopener noreferrer" contenteditable="true">raghseqalam.ir</a>
+        </div>
+        <div class="pf-card">
+          <button class="del-btn" aria-label="حذف">✕</button>
+          <div class="pf-name" contenteditable="true">پوشش نوین پلاستیک</div>
+          <a href="https://poosheshnovinplastic.com" target="_blank" rel="noopener noreferrer" contenteditable="true">poosheshnovinplastic.com</a>
+        </div>
       </div>
       <button class="add-btn" id="addPf">+ افزودن نمونه کار</button>
     </section>
   </div>
 </div>
 
-<div class="hint">💡 برای ویرایش روی «ویرایش» بزنید و رمز عبور را وارد کنید.</div>
+<div class="hint">💡 این رزومه به‌صورت محلی روی مرورگر شما ذخیره می‌شود. برای ویرایش، روی «ویرایش» بزنید و رمز عبور را وارد کنید.</div>
 
 <script>
 (function(){
   'use strict';
 
   // ===== Constants =====
-  const STORAGE_KEY = 'asal-resume-v4';
-  const HASH_KEY = 'asal-resume-hash-v4';
-  const OWNER_KEY = 'asal-resume-owner-v4';
-
-  // ===== DOM Refs =====
+  const STORAGE_KEY = 'asal-resume-data-v2';
+  const HASH_KEY = 'asal-resume-edit-hash-v2';
+  
+  // ===== DOM References =====
   const body = document.body;
   const page = document.getElementById('resumePage');
   const statusText = document.getElementById('statusText');
@@ -1054,10 +1283,24 @@
   const avatarInput = document.getElementById('avatarInput');
   const camBtn = document.getElementById('camBtn');
 
+  // ===== State =====
   let editing = false;
-  let isOwner = false;
 
-  // ===== SHA256 =====
+  // ===== Utility Functions =====
+  function setEditableAttrs(state) {
+    const elements = document.querySelectorAll('[contenteditable]');
+    for (const el of elements) {
+      el.setAttribute('contenteditable', state ? 'true' : 'false');
+    }
+  }
+
+  function createElement(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html.trim();
+    return template.content.firstElementChild;
+  }
+
+  // ===== Password Management =====
   async function sha256(text) {
     const enc = new TextEncoder().encode(text);
     const buf = await crypto.subtle.digest('SHA-256', enc);
@@ -1066,92 +1309,281 @@
       .join('');
   }
 
-  // ===== Owner Check =====
-  function checkOwner() {
-    if (localStorage.getItem(OWNER_KEY) === 'true') {
-      isOwner = true;
-      body.classList.add('owner');
-    }
-    return isOwner;
-  }
-
-  // ===== Verify Password =====
-  async function verifyPassword() {
+  async function requestAccess() {
     const savedHash = localStorage.getItem(HASH_KEY);
     
     if (!savedHash) {
-      const p1 = prompt('🔐 رمز عبور برای ویرایش تعیین کنید:');
+      const p1 = prompt('🔐 برای اولین بار، یک رمز عبور برای حالت ویرایش تعیین کنید:');
       if (!p1) return false;
-      const p2 = prompt('🔐 تکرار رمز عبور:');
+      
+      const p2 = prompt('🔐 رمز عبور را دوباره وارد کنید:');
       if (p1 !== p2) {
-        alert('❌ رمزها یکسان نیستند!');
+        alert('❌ رمزها یکسان نبودند.');
         return false;
       }
-      const hash = await sha256(p1);
-      localStorage.setItem(HASH_KEY, hash);
-      localStorage.setItem(OWNER_KEY, 'true');
-      isOwner = true;
-      body.classList.add('owner');
+      
+      const h = await sha256(p1);
+      localStorage.setItem(HASH_KEY, h);
+      return true;
+    } else {
+      const p = prompt('🔐 برای ورود به حالت ویرایش، رمز عبور را وارد کنید:');
+      if (p === null) return false;
+      
+      const h = await sha256(p);
+      if (h !== savedHash) {
+        alert('❌ رمز عبور نادرست است.');
+        return false;
+      }
       return true;
     }
-    
-    const p = prompt('🔐 رمز عبور را وارد کنید:');
-    if (p === null) return false;
-    
-    const hash = await sha256(p);
-    if (hash !== savedHash) {
-      alert('❌ رمز عبور اشتباه است!');
-      return false;
-    }
-    
-    localStorage.setItem(OWNER_KEY, 'true');
-    isOwner = true;
-    body.classList.add('owner');
-    return true;
   }
 
-  // ===== Set Editable =====
-  function setEditable(state) {
-    const elements = document.querySelectorAll('[contenteditable]');
-    elements.forEach(el => {
-      el.contentEditable = state;
+  // ===== Edit Mode Toggle =====
+  const btnEdit = document.getElementById('btnEdit');
+  
+  btnEdit.addEventListener('click', async () => {
+    if (!editing) {
+      const ok = await requestAccess();
+      if (!ok) return;
+      
+      editing = true;
+      body.classList.add('editing');
+      setEditableAttrs(true);
+      btnEdit.classList.add('active');
+      btnEdit.innerHTML = '🔒 <span>پایان ویرایش</span>';
+      statusText.textContent = '✏️ حالت ویرایش فعال است';
+      statusText.style.color = 'var(--sunset)';
+    } else {
+      editing = false;
+      body.classList.remove('editing');
+      setEditableAttrs(false);
+      btnEdit.classList.remove('active');
+      btnEdit.innerHTML = '🔓 <span>ویرایش</span>';
+      statusText.textContent = '👁️ حالت نمایش';
+      statusText.style.color = '';
+      designPanel.classList.remove('open');
+    }
+  });
+
+  // ===== Design Panel =====
+  const btnDesign = document.getElementById('btnDesign');
+  
+  btnDesign.addEventListener('click', () => {
+    designPanel.classList.toggle('open');
+  });
+
+  // ===== Print =====
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    window.print();
+  });
+
+  // ===== Delete Items (Event Delegation) =====
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    
+    if (target.classList.contains('del-btn')) {
+      const item = target.closest('.item, .pf-card');
+      if (item && confirm('⚠️ این مورد حذف شود؟')) {
+        item.remove();
+        saveState(); // Auto-save after deletion
+      }
+    }
+    
+    if (target.classList.contains('del-chip')) {
+      const chip = target.closest('.chip');
+      if (chip && confirm('⚠️ این مورد حذف شود؟')) {
+        chip.remove();
+        saveState(); // Auto-save after deletion
+      }
+    }
+  });
+
+  // ===== Add Buttons =====
+  const addExp = document.getElementById('addExp');
+  const addEdu = document.getElementById('addEdu');
+  const addCourse = document.getElementById('addCourse');
+  const addLang = document.getElementById('addLang');
+  const addSoft = document.getElementById('addSoft');
+  const addPf = document.getElementById('addPf');
+
+  addExp.addEventListener('click', () => {
+    const el = createElement(`
+      <div class="item">
+        <button class="del-btn" aria-label="حذف">✕</button>
+        <div class="item-top">
+          <div class="item-role" contenteditable="true">عنوان شغلی — نام شرکت</div>
+          <div class="item-date" contenteditable="true">تاریخ شروع تا تاریخ پایان</div>
+        </div>
+        <div class="item-sub" contenteditable="true">شهر</div>
+        <div class="item-desc" contenteditable="true">توضیحات...</div>
+      </div>
+    `);
+    document.getElementById('expList').appendChild(el);
+    saveState();
+  });
+
+  addEdu.addEventListener('click', () => {
+    const el = createElement(`
+      <div class="edu-item item">
+        <button class="del-btn" aria-label="حذف">✕</button>
+        <div class="edu-title" contenteditable="true">مقطع - رشته تحصیلی</div>
+        <div class="edu-sub" contenteditable="true">نام دانشگاه</div>
+        <div class="edu-extra" contenteditable="true">وضعیت · معدل</div>
+      </div>
+    `);
+    document.getElementById('eduList').appendChild(el);
+    saveState();
+  });
+
+  addCourse.addEventListener('click', () => {
+    const el = createElement(`
+      <div class="edu-item item">
+        <button class="del-btn" aria-label="حذف">✕</button>
+        <div class="edu-title" contenteditable="true">نام دوره</div>
+        <div class="edu-sub" contenteditable="true">برگزارکننده · طول دوره</div>
+        <div class="edu-extra" contenteditable="true">مدرس: ...</div>
+      </div>
+    `);
+    document.getElementById('courseList').appendChild(el);
+    saveState();
+  });
+
+  addLang.addEventListener('click', () => {
+    const el = createElement(`
+      <div class="chip">
+        <span contenteditable="true">زبان</span>
+        <span class="lvl" contenteditable="true">سطح</span>
+        <button class="del-chip" aria-label="حذف">✕</button>
+      </div>
+    `);
+    document.getElementById('langList').appendChild(el);
+    saveState();
+  });
+
+  addSoft.addEventListener('click', () => {
+    const el = createElement(`
+      <div class="chip">
+        <span contenteditable="true">نرم‌افزار</span>
+        <span class="lvl" contenteditable="true">سطح</span>
+        <button class="del-chip" aria-label="حذف">✕</button>
+      </div>
+    `);
+    document.getElementById('softwareGrid').appendChild(el);
+    saveState();
+  });
+
+  addPf.addEventListener('click', () => {
+    const el = createElement(`
+      <div class="pf-card">
+        <button class="del-btn" aria-label="حذف">✕</button>
+        <div class="pf-name" contenteditable="true">نام پروژه</div>
+        <a href="#" target="_blank" rel="noopener noreferrer" contenteditable="true">آدرس سایت</a>
+      </div>
+    `);
+    document.getElementById('pfGrid').appendChild(el);
+    saveState();
+  });
+
+  // ===== Avatar Upload =====
+  camBtn.addEventListener('click', () => avatarInput.click());
+  
+  avatarInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      avatarBox.style.backgroundImage = `url('${ev.target.result}')`;
+      avatarBox.dataset.custom = ev.target.result;
+      saveState();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // ===== Design Controls =====
+  const root = document.documentElement;
+  const colorMap = {
+    cPrimary: '--primary',
+    cSunset: '--sunset',
+    cTeal: '--teal',
+    cInk: '--ink'
+  };
+
+  function syncColorInputs() {
+    for (const [id, prop] of Object.entries(colorMap)) {
+      const val = getComputedStyle(root).getPropertyValue(prop).trim();
+      const input = document.getElementById(id);
+      if (input && val) {
+        input.value = val.startsWith('#') ? val : '#6C3CE9';
+      }
+    }
+  }
+
+  syncColorInputs();
+
+  for (const [id, prop] of Object.entries(colorMap)) {
+    document.getElementById(id).addEventListener('input', (e) => {
+      root.style.setProperty(prop, e.target.value);
+      saveState();
     });
   }
 
-  // ===== Create Element =====
-  function createElement(html) {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-    return template.content.firstElementChild;
-  }
+  const fontSelect = document.getElementById('fontSelect');
+  fontSelect.addEventListener('change', (e) => {
+    root.style.setProperty('--font-display', e.target.value);
+    root.style.setProperty('--font-body', e.target.value);
+    saveState();
+  });
 
-  // ===== Save State =====
+  document.getElementById('btnReset').addEventListener('click', () => {
+    const defaults = {
+      '--primary': '#6C3CE9',
+      '--sunset': '#FF6B4A',
+      '--teal': '#12B8A6',
+      '--ink': '#1B1730',
+      '--font-display': "'Vazirmatn', sans-serif",
+      '--font-body': "'Vazirmatn', sans-serif"
+    };
+    
+    for (const [prop, value] of Object.entries(defaults)) {
+      root.style.setProperty(prop, value);
+    }
+    
+    fontSelect.value = "'Vazirmatn', sans-serif";
+    syncColorInputs();
+    saveState();
+  });
+
+  // ===== Save / Load =====
   function saveState() {
     try {
       const state = {
         html: page.innerHTML,
         avatar: avatarBox.style.backgroundImage,
         vars: {
-          primary: getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(),
-          sunset: getComputedStyle(document.documentElement).getPropertyValue('--sunset').trim(),
-          teal: getComputedStyle(document.documentElement).getPropertyValue('--teal').trim(),
-          ink: getComputedStyle(document.documentElement).getPropertyValue('--ink').trim()
+          primary: root.style.getPropertyValue('--primary'),
+          sunset: root.style.getPropertyValue('--sunset'),
+          teal: root.style.getPropertyValue('--teal'),
+          ink: root.style.getPropertyValue('--ink'),
+          fontDisplay: root.style.getPropertyValue('--font-display'),
+          fontBody: root.style.getPropertyValue('--font-body')
         }
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       
+      // Show save feedback
       statusText.textContent = '💾 ذخیره شد ✓';
-      statusText.style.color = '#12B8A6';
+      statusText.style.color = 'var(--teal)';
       setTimeout(() => {
-        statusText.textContent = editing ? '✏️ ویرایش فعال' : '👁️ حالت نمایش';
-        statusText.style.color = editing ? '#FF6B4A' : '';
+        statusText.textContent = editing ? '✏️ حالت ویرایش فعال است' : '👁️ حالت نمایش';
+        statusText.style.color = editing ? 'var(--sunset)' : '';
       }, 1500);
-    } catch (e) {
-      alert('❌ خطا در ذخیره‌سازی');
+    } catch (err) {
+      console.error('Save error:', err);
+      alert('❌ ذخیره‌سازی با خطا مواجه شد. فضای ذخیره‌سازی مرورگر ممکن است پر باشد.');
     }
   }
 
-  // ===== Load State =====
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -1168,264 +1600,64 @@
       }
       
       if (state.vars) {
-        const root = document.documentElement;
-        if (state.vars.primary) root.style.setProperty('--primary', state.vars.primary);
-        if (state.vars.sunset) root.style.setProperty('--sunset', state.vars.sunset);
-        if (state.vars.teal) root.style.setProperty('--teal', state.vars.teal);
-        if (state.vars.ink) root.style.setProperty('--ink', state.vars.ink);
+        const { primary, sunset, teal, ink, fontDisplay, fontBody } = state.vars;
+        if (primary) root.style.setProperty('--primary', primary);
+        if (sunset) root.style.setProperty('--sunset', sunset);
+        if (teal) root.style.setProperty('--teal', teal);
+        if (ink) root.style.setProperty('--ink', ink);
+        if (fontDisplay) root.style.setProperty('--font-display', fontDisplay);
+        if (fontBody) root.style.setProperty('--font-body', fontBody);
+        
+        // Update font select
+        if (fontDisplay) {
+          const option = Array.from(fontSelect.options).find(opt => opt.value === fontDisplay);
+          if (option) fontSelect.value = fontDisplay;
+        }
       }
       
-      setEditable(editing);
+      // Ensure editable state is correct
+      setEditableAttrs(editing);
       syncColorInputs();
-    } catch (e) {
-      console.error('Load error:', e);
+      
+    } catch (err) {
+      console.error('Load error:', err);
     }
   }
-
-  // ===== Sync Color Inputs =====
-  function syncColorInputs() {
-    const root = document.documentElement;
-    const colors = {
-      cPrimary: '--primary',
-      cSunset: '--sunset',
-      cTeal: '--teal',
-      cInk: '--ink'
-    };
-    
-    for (const [id, prop] of Object.entries(colors)) {
-      const val = getComputedStyle(root).getPropertyValue(prop).trim();
-      const input = document.getElementById(id);
-      if (input && val) {
-        input.value = val.startsWith('#') ? val : '#6C3CE9';
-      }
-    }
-  }
-
-  // ===== Edit Button =====
-  const btnEdit = document.getElementById('btnEdit');
-  
-  btnEdit.addEventListener('click', async function() {
-    if (!isOwner) {
-      const ok = await verifyPassword();
-      if (!ok) return;
-    }
-    
-    editing = !editing;
-    body.classList.toggle('editing', editing);
-    setEditable(editing);
-    
-    this.classList.toggle('active', editing);
-    this.innerHTML = editing ? '🔒 <span>پایان ویرایش</span>' : '🔓 <span>ویرایش</span>';
-    statusText.textContent = editing ? '✏️ ویرایش فعال' : '👁️ حالت نمایش';
-    statusText.style.color = editing ? '#FF6B4A' : '';
-    
-    if (!editing) {
-      designPanel.classList.remove('open');
-    }
-  });
-
-  // ===== Design Button =====
-  document.getElementById('btnDesign').addEventListener('click', function() {
-    if (!isOwner) {
-      alert('⚠️ ابتدا روی "ویرایش" کلیک کنید و رمز را وارد کنید.');
-      return;
-    }
-    designPanel.classList.toggle('open');
-  });
 
   // ===== Save Button =====
   document.getElementById('btnSave').addEventListener('click', saveState);
 
-  // ===== Print Button =====
-  document.getElementById('btnPrint').addEventListener('click', function() {
-    window.print();
-  });
-
-  // ===== Delete Items =====
-  document.addEventListener('click', function(e) {
-    const target = e.target;
-    
-    if (target.classList.contains('del-btn')) {
-      const item = target.closest('.item, .pf-card');
-      if (item && confirm('⚠️ این مورد حذف شود؟')) {
-        item.remove();
-        saveState();
-      }
-    }
-    
-    if (target.classList.contains('del-chip')) {
-      const chip = target.closest('.chip');
-      if (chip && confirm('⚠️ این مورد حذف شود؟')) {
-        chip.remove();
-        saveState();
-      }
-    }
-  });
-
-  // ===== Add Buttons =====
-  document.getElementById('addExp').addEventListener('click', function() {
-    const el = createElement(`
-      <div class="item">
-        <button class="del-btn">✕</button>
-        <div class="item-top">
-          <div class="item-role" contenteditable="true">عنوان شغلی — نام شرکت</div>
-          <div class="item-date" contenteditable="true">تاریخ شروع تا پایان</div>
-        </div>
-        <div class="item-sub" contenteditable="true">شهر</div>
-        <div class="item-desc" contenteditable="true">توضیحات...</div>
-      </div>
-    `);
-    document.getElementById('expList').appendChild(el);
-    saveState();
-  });
-
-  document.getElementById('addEdu').addEventListener('click', function() {
-    const el = createElement(`
-      <div class="edu-item item">
-        <button class="del-btn">✕</button>
-        <div class="edu-title" contenteditable="true">مقطع - رشته</div>
-        <div class="edu-sub" contenteditable="true">نام دانشگاه</div>
-        <div class="edu-extra" contenteditable="true">وضعیت · معدل</div>
-      </div>
-    `);
-    document.getElementById('eduList').appendChild(el);
-    saveState();
-  });
-
-  document.getElementById('addCourse').addEventListener('click', function() {
-    const el = createElement(`
-      <div class="edu-item item">
-        <button class="del-btn">✕</button>
-        <div class="edu-title" contenteditable="true">نام دوره</div>
-        <div class="edu-sub" contenteditable="true">برگزارکننده · مدت</div>
-        <div class="edu-extra" contenteditable="true">مدرس: ...</div>
-      </div>
-    `);
-    document.getElementById('courseList').appendChild(el);
-    saveState();
-  });
-
-  document.getElementById('addLang').addEventListener('click', function() {
-    const el = createElement(`
-      <div class="chip">
-        <span contenteditable="true">زبان</span>
-        <span class="lvl" contenteditable="true">سطح</span>
-        <button class="del-chip">✕</button>
-      </div>
-    `);
-    document.getElementById('langList').appendChild(el);
-    saveState();
-  });
-
-  document.getElementById('addSoft').addEventListener('click', function() {
-    const el = createElement(`
-      <div class="chip">
-        <span contenteditable="true">نرم‌افزار</span>
-        <span class="lvl" contenteditable="true">سطح</span>
-        <button class="del-chip">✕</button>
-      </div>
-    `);
-    document.getElementById('softwareGrid').appendChild(el);
-    saveState();
-  });
-
-  document.getElementById('addPf').addEventListener('click', function() {
-    const el = createElement(`
-      <div class="pf-card">
-        <button class="del-btn">✕</button>
-        <div class="pf-name" contenteditable="true">نام پروژه</div>
-        <a href="#" target="_blank" rel="noopener noreferrer" contenteditable="true">آدرس سایت</a>
-      </div>
-    `);
-    document.getElementById('pfGrid').appendChild(el);
-    saveState();
-  });
-
-  // ===== Avatar Upload =====
-  camBtn.addEventListener('click', function() {
-    if (editing) avatarInput.click();
-  });
-  
-  avatarInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-      avatarBox.style.backgroundImage = `url('${ev.target.result}')`;
-      saveState();
-    };
-    reader.readAsDataURL(file);
-  });
-
-  // ===== Color Controls =====
-  const root = document.documentElement;
-  
-  document.getElementById('cPrimary').addEventListener('input', function(e) {
-    root.style.setProperty('--primary', e.target.value);
-    saveState();
-  });
-  
-  document.getElementById('cSunset').addEventListener('input', function(e) {
-    root.style.setProperty('--sunset', e.target.value);
-    saveState();
-  });
-  
-  document.getElementById('cTeal').addEventListener('input', function(e) {
-    root.style.setProperty('--teal', e.target.value);
-    saveState();
-  });
-  
-  document.getElementById('cInk').addEventListener('input', function(e) {
-    root.style.setProperty('--ink', e.target.value);
-    saveState();
-  });
-
-  document.getElementById('fontSelect').addEventListener('change', function(e) {
-    root.style.setProperty('--font-display', e.target.value);
-    root.style.setProperty('--font-body', e.target.value);
-    saveState();
-  });
-
-  document.getElementById('btnReset').addEventListener('click', function() {
-    root.style.setProperty('--primary', '#6C3CE9');
-    root.style.setProperty('--sunset', '#FF6B4A');
-    root.style.setProperty('--teal', '#12B8A6');
-    root.style.setProperty('--ink', '#1B1730');
-    root.style.setProperty('--font-display', "'Vazirmatn', sans-serif");
-    root.style.setProperty('--font-body', "'Vazirmatn', sans-serif");
-    document.getElementById('fontSelect').value = "'Vazirmatn', sans-serif";
-    syncColorInputs();
-    saveState();
-  });
-
-  // ===== Auto-save =====
-  document.addEventListener('input', function(e) {
+  // ===== Auto-save on content change =====
+  document.addEventListener('input', (e) => {
     if (editing && e.target.closest('[contenteditable="true"]')) {
+      // Debounce save
       clearTimeout(window._saveTimeout);
       window._saveTimeout = setTimeout(saveState, 500);
     }
   });
 
+  // ===== Initialize =====
+  loadState();
+
   // ===== Keyboard Shortcuts =====
-  document.addEventListener('keydown', function(e) {
+  document.addEventListener('keydown', (e) => {
+    // Ctrl+S to save
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
       e.preventDefault();
       saveState();
     }
+    
+    // Escape to close design panel
     if (e.key === 'Escape' && designPanel.classList.contains('open')) {
       designPanel.classList.remove('open');
     }
   });
 
-  // ===== Initialize =====
-  checkOwner();
-  loadState();
-  
-  console.log('✅ رزومه بارگذاری شد!');
-  console.log('💡 روی "ویرایش" کلیک کنید و رمز عبور را وارد کنید.');
+  console.log('📄 Resume loaded successfully!');
+  console.log('💡 Tip: Click "ویرایش" to modify content, "طراحی" to customize colors.');
 
 })();
 </script>
+
 </body>
 </html>
