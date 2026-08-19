@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>عسل رحمانی | رزومه</title>
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Estedad:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -900,7 +901,7 @@
   <button id="btnSave" aria-label="ذخیره تغییرات">💾 <span>ذخیره</span></button>
   <button id="btnPrint" aria-label="چاپ یا خروجی PDF">🖨️ <span>خروجی PDF</span></button>
   <div class="divider" aria-hidden="true"></div>
-  <span class="status" id="statusText" aria-live="polite">حالت نمایش</span>
+  <span class="status" id="statusText" aria-live="polite">👁️ حالت نمایش</span>
 </div>
 
 <!-- ===== Design Panel ===== -->
@@ -1385,7 +1386,7 @@
       const item = target.closest('.item, .pf-card');
       if (item && confirm('⚠️ این مورد حذف شود؟')) {
         item.remove();
-        saveState(); // Auto-save after deletion
+        saveState();
       }
     }
     
@@ -1393,7 +1394,7 @@
       const chip = target.closest('.chip');
       if (chip && confirm('⚠️ این مورد حذف شود؟')) {
         chip.remove();
-        saveState(); // Auto-save after deletion
+        saveState();
       }
     }
   });
@@ -1571,7 +1572,6 @@
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       
-      // Show save feedback
       statusText.textContent = '💾 ذخیره شد ✓';
       statusText.style.color = 'var(--teal)';
       setTimeout(() => {
@@ -1608,14 +1608,12 @@
         if (fontDisplay) root.style.setProperty('--font-display', fontDisplay);
         if (fontBody) root.style.setProperty('--font-body', fontBody);
         
-        // Update font select
         if (fontDisplay) {
           const option = Array.from(fontSelect.options).find(opt => opt.value === fontDisplay);
           if (option) fontSelect.value = fontDisplay;
         }
       }
       
-      // Ensure editable state is correct
       setEditableAttrs(editing);
       syncColorInputs();
       
@@ -1630,7 +1628,6 @@
   // ===== Auto-save on content change =====
   document.addEventListener('input', (e) => {
     if (editing && e.target.closest('[contenteditable="true"]')) {
-      // Debounce save
       clearTimeout(window._saveTimeout);
       window._saveTimeout = setTimeout(saveState, 500);
     }
@@ -1641,13 +1638,11 @@
 
   // ===== Keyboard Shortcuts =====
   document.addEventListener('keydown', (e) => {
-    // Ctrl+S to save
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
       e.preventDefault();
       saveState();
     }
     
-    // Escape to close design panel
     if (e.key === 'Escape' && designPanel.classList.contains('open')) {
       designPanel.classList.remove('open');
     }
@@ -1658,6 +1653,5 @@
 
 })();
 </script>
-
 </body>
 </html>
